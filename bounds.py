@@ -1,5 +1,4 @@
 #--------------------------------------------------------------------------
-#--------------------------------------------------------------------------
 #Program Name: bounds.py
 #Author: Thomas Krenelka, Zach O'Toole, The Notorious L.A.M.
 #--------------------------------------------------------------------------
@@ -31,11 +30,10 @@ def update_sum(occ):
     elif occ == 0 and occ_sum > 0:
         occ_sum = occ_sum - 1
 
-def set_new(outside_t,inside_t,occ)
+def set_new(outside_t,inside_t,occ,prob_present)
     outside_comp(outside_t,inside_t)
     update_sum(occ)
     boundshift = ((4-0.5*occ_sum)*a)+((4 - 4*prob_present)*b)
     setpoint = user_setpoint + boundshift*(-1)^mode
     return setpoint, mode
-
 
