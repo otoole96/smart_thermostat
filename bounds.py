@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------------
-#Program Name: pid_control.py
+#Program Name: bounds.py
 #Author: Thomas Krenelka, Zach O'Toole, The Notorious L.A.M.
 #--------------------------------------------------------------------------
 #Description:
@@ -33,8 +33,7 @@ def update_sum(occ):
 def set_new(outside_t,inside_t,occ)
     outside_comp(outside_t,inside_t)
     update_sum(occ)
-    boundshift = ((4-0.5*occ_sum)*a)+((4 - prob_present)*b)
+    boundshift = ((4-0.5*occ_sum)*a)+((4 - 4*prob_present)*b)
     setpoint = user_setpoint + boundshift*(-1)^case
-
-
+    return setpoint, case
 
