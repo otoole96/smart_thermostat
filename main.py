@@ -27,7 +27,7 @@ def main():
     pid.set_relays(setpoint, inside_t)
     
     while True:
-        bang_bang.bang_bang(setpoint,inside_t,outside_t)
+        heat, ac, fan = bang_bang.bang_bang(heat, ac, fan, setpoint,inside_t,outside_t)
 
     
 if __name__ == "__main__ ":
