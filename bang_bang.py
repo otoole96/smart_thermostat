@@ -25,11 +25,11 @@ fan = 0
 
 def control(setpoint,inside_t,outside_t):
     # Heat mode
-    if outside_t =< inside_t:
+    if outside_t <= inside_t:
         if inside_t<(setpoint-h):
             heat = 1
             ac = 0
-            fan = 0
+            fan = 1
         elif inside_t>(setpoint+h):
             heat = 0
             ac = 0
