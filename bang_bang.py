@@ -19,8 +19,11 @@ GPIO.setup(26,GPIO.OUT)     #fan
 
 
 h = 0.5                     #hysteresis vale in f
+heat = 0
+ac = 0
+fan = 0
 
-def control(setpoint,h,inside_t,outside_t):
+def control(setpoint,inside_t,outside_t):
     # Heat mode
     if outside_t =< inside_t:
         if inside_t<(setpoint-h):
@@ -41,10 +44,9 @@ def control(setpoint,h,inside_t,outside_t):
             heat = 0
             ac = 0
             fan = 0
-    return heat,ac,fan
 
 
-def set_pins(heat,ac,fan):
+def set_pins():
     if heat == 1:
         GPIO.output(24,GPIO.HIGH)
     else:
@@ -62,6 +64,7 @@ def set_pins(heat,ac,fan):
 
 
 
-def bang_bang(heat,ac,fan,setpoint,h,inside_t,outside_t):
-    control(setpoint,h,inside_t,outside_t)
-    set_pins(heat,ac,fan)
+def bang_bang(setpoint,inside_t,outside_t):
+    control(setpoint,inside_t,outside_t)
+    set_pins()
+
