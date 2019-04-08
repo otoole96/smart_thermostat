@@ -10,7 +10,7 @@
 
 import bang_bang.py as bang_bang
 import bounds.py as bounds
-import thermostat_io.py as io
+import thermostat_inputs.py as io
 import learning as smart
 import time
 
@@ -23,7 +23,6 @@ def main():
     occ_hist = smart.load_history()
     # Main Loop
     while True:
-        inside_t, humidity, user_setpoint, occ, outside_t = io.get_inputs()
         prob_present = smart.probability_present(occ_hist)
         setpoint = bounds.determine_setpoint(occ, prob_present, user_setpoint)
         heat, ac, fan = bang_bang.bang_bang(heat, ac, fan, setpoint,inside_t,outside_t)
