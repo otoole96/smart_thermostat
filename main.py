@@ -8,7 +8,7 @@
 
 #-----------------------------------------------------------------------
 
-import pid_control.py as pid
+import bang_bang.py as bang_bang
 import bounds.py as bounds
 import thermostat_io.py as io
 import learning as smart
@@ -26,6 +26,8 @@ def main():
 
     pid.set_relays(setpoint, inside_t)
     
+    while True:
+        bang_bang.bang_bang(setpoint,inside_t,outside_t)
 
     
 if __name__ == "__main__ ":
