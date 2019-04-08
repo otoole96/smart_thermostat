@@ -62,7 +62,7 @@ def set_pins(heat, ac, fan):
 
 
 def bang_bang(heat,ac,fan,setpoint,inside_t,outside_t):
-    heat, ac ,fan = control(setpoint,inside_t,outside_t)
+    heat, ac ,fan = control(heat,ac,fan,setpoint,inside_t,outside_t)
     set_pins(heat, ac, fan)
     return heat, ac, fan
 
