@@ -1,8 +1,8 @@
+#---------------------------------------------------------------------------------------------------
 # Thermostat IO
+# Authors: Zach O'Toole, Qian Hao Lam
 # Purpose: to get the inputs from the thermostat sensors and output stuff.
-#
-#
-#
+#---------------------------------------------------------------------------------------------------
 
 import os
 import glob
