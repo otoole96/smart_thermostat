@@ -10,23 +10,33 @@
 
 import bang_bang.py as bang_bang
 import bounds.py as bounds
-import thermostat_inputs.py as io
-import learning as smart
-import time
+import thermostat_io.py as io
+from learning import probability_present
+import time, sched
+import main_globals
 
 # Main function of the project
 def main():
     # Initialization
-    heat = 0
-    ac = 0
-    fan = 0
-    occ_hist = smart.load_history()
+    main_globals.init() # TODO: get the user set point through the UI
+    s = sched.scheduler(time.time, time.sleep)
+
     # Main Loop
     while True:
-        prob_present = smart.probability_present(occ_hist)
-        setpoint = bounds.determine_setpoint(occ, prob_present, user_setpoint)
-        heat, ac, fan = bang_bang.bang_bang(heat, ac, fan, setpoint,inside_t,outside_t)
-        
+        # Get inputs (dt = 60sec)
+        s.enter(60, 10, io.get_inside_t)
+        s.enter(60, 9, io.get_outside_t)
+        s.enter(60, 8, io.get_occ)
+
+        # Get the probability present, then setpoint in the next delta t (dt = 15m)
+        s.enter(60*15, 3, probability_present)
+        s.enter(60*15, 2, bounds.determine_setpoint)
+
+        # Set the HVAC (dt = 1m)
+        s.enter(60, 1, bang_bang.bang_bang)
+
+        s.run()
+        # UI Code (dt = 0)
 
 if __name__ == "__main__ ":
     main()

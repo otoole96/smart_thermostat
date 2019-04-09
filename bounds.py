@@ -12,28 +12,26 @@
 #   occ_hist
 #   prob_present
 
+import main_globals
 
-a = 0.5         #a + b must equal 1
-b = 0.5
-occ_sum = 0
-bound_shift = 0  #do not make this more than 5 degrees ever
-
-def outside_comp(outside_t,inside_t):
-    if outside_t > inside_t:
-        mode = 0 #hot outside/AC in use
+def outside_comp(main_globals.outside_t,main_globals.inside_t):
+    if main_globals.outside_t > main_globals.inside_t:
+        main_globals.mode = 0 #hot outside/AC in use
     else:
-        mode = 1 #cold outside/Heat in use
+        main_globals.mode = 1 #cold outside/Heat in use
 
-def update_sum(occ):
-    if occ == 1 and occ_sum < 8:
-        occ_sum = occ_sum+1
-    elif occ == 0 and occ_sum > 0:
-        occ_sum = occ_sum - 1
+def update_sum():
+    if main_globals.occ == 1 and main_globals.occ_sum < 8:
+        main_globals.occ_sum = main_globals.occ_sum - 1
 
-def set_new(outside_t,inside_t,occ,prob_present)
-    outside_comp(outside_t,inside_t)
-    update_sum(occ)
-    boundshift = ((4-0.5*occ_sum)*a)+((4 - 4*prob_present)*b)
-    setpoint = user_setpoint + boundshift*(-1)^mode
-    return setpoint, mode
+    elif main_globals.occ == 0 and main_globals.occ_sum > 0:
+        main_globals.occ_sum = main_globals.occ_sum - 1
+
+def set_new():
+    a = 0.5
+    b = 0.5
+    outside_comp()
+    update_sum()
+    boundshift = ((4-0.5*main_globals.occ_sum)*a)+((4 - 4*main_globals.prob_present)*b) #cant go above 5
+    setpoint = main_globals.user_setpoint + boundshift*(-1)^mode
 

@@ -1,7 +1,7 @@
-#-------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 #Program Name: learning.py
-#Author: Zach O'Toole
-#------------------------------------------------------------------------
+#Author: Zach O'Toole, Qian Hao Lam, Thomas Krenelka
+#---------------------------------------------------------------------------------------
 #Description:
 #   This file is responsible for handling all of the machine learning 
 #   duties. This includes the following:
@@ -9,21 +9,27 @@
 #   - creating a ML model from that data
 #   - using that data to determine if the occupant will be present for
 #     the next time interval
-#-----------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 
-#
-## Imports go here
-#
+
+#---------------------------------------------------------------------------------------
+# Imports go here
+#---------------------------------------------------------------------------------------
 import math
 import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from sklearn import datasets, linear_model, preprocessing
+from sklearn import svm
+from time import localtime
+import main_globals
 
 time = []
 target = []
 
+#---------------------------------------------------------------------------------------
+# Helper function for loading history
+#---------------------------------------------------------------------------------------
 def time_str_to_int(time):
     hours = 0
     if time[0] == ' ':
@@ -34,8 +40,19 @@ def time_str_to_int(time):
     minutes = int(time[-2:])
     return 60*hours + minutes
 
-
+#---------------------------------------------------------------------------------------
+# Determines the next time slot for the prediction
+#---------------------------------------------------------------------------------------
+def get_next_time_index():
+    t_struct = localtime()
+    hours = t_struct[3]
+    minutes = t_struct[4]
+    total_minutes = hours * 60 + minutes
+    return int(math.floor(total_minutes/15) + 1)
+    
+#---------------------------------------------------------------------------------------
 # Load history takes in a file (.csv) and creates a data frame for each day
+#---------------------------------------------------------------------------------------
 def load_history():
     print("Loading history...")
     filename = "occupancy_history.csv"
@@ -61,37 +78,42 @@ def load_history():
 def init():
     load_history()
 
-
-def probability_present():
+#---------------------------------------------------------------------------------------
+# Creates the SVM and returns the vecto holding the probability data for the different
+# time slots
+#---------------------------------------------------------------------------------------
+def get_probability_model():
     t = np.array(time)
     y = np.array(target)
     
-    logreg = linear_model.LogisticRegression(C=1e5, class_weight='balanced')
-
+    support_vector_machine = svm.SVC(probability=True, kernel="rbf", verbose=1)
+    
     t_train = t[:-96]
     y_train = y[:-96]
 
     t_train = t_train.reshape(-1, 1)
 
-    logreg.fit(t_train, y_train)
-#    logreg.fit(t.reshape(-1,1), y)
+    h = support_vector_machine.fit(t_train, y_train)
 
     t_test = t[-96:]
     y_test = y[-96:]
     
     t_test = t_test.reshape(-1,1)
-    
-    yhat = logreg.predict(t_test)
-    yprob = logreg.predict_proba(t_test)
-    print(yprob)
-#    yhat = logreg.predict(t.reshape(-1,1))
-    print(yhat)
-    acc = np.mean(yhat == y_test)
-#    acc = np.mean(yhat == y)
-    print("Accuracy on training data = %f" % acc)
 
-    plt.scatter(t_test,yprob[:,1])
-    plt.xlim(0,1500)
-    plt.ylim(-0.1,1.1)
-    plt.grid()
-    plt.show()
+    yhat = support_vector_machine.predict(t_test)
+    yprob = support_vector_machine.predict_proba(t_test)
+    
+    acc = np.mean(yhat == y_test)
+    print("Accuracy = %f" % acc)
+    
+    return yprob
+
+#---------------------------------------------------------------------------------------
+# Main entry point for the learning program.
+#---------------------------------------------------------------------------------------
+def probability_present():
+    init()
+    yprob = get_probability_model()[:,1]
+    next_time_ind = get_next_time_index()
+    main_globals.yprob = yprob[next_time_ind]
+    

@@ -8,6 +8,7 @@ import os
 import glob
 import time
 import datetime
+import main_globals
 
 from urllib.request import urlopen
 import json
@@ -47,7 +48,7 @@ def get_inside_temp(inside_t):
     temp_c, temp_f = read_temp()
     print(str(temp_c))	
     print(str(temp_f))	
-    return temp_f
+    main_globals.inside_t = temp_f
 
 #---------------------------------------------------------------------------------------------------
 # Outside Temp.
@@ -70,7 +71,7 @@ def query_outside_temp ():
 # Main entry point for getting the outside temp
 def get_outside_t (outside_t):
     outside_t = query_outside_temp()
-    return outside_t
+    main_globals.outside_t = outside_t
 
 
 #---------------------------------------------------------------------------------------------------
@@ -79,9 +80,10 @@ def get_outside_t (outside_t):
 
 # Helper function for the occupancy
 def ping_the_user():
-
+    # Occ logic here
+    return 0 # TODO: Return occ, not 0
 
 # Main entry point for obtaining the occupancy
 def get_occ(occ):
     occ = ping_the_user()
-    return occ
+    main_globals.occ = occ
