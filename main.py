@@ -8,9 +8,9 @@
 
 #-----------------------------------------------------------------------
 
-import bang_bang.py as bang_bang
-import bounds.py as bounds
-import thermostat_io.py as io
+import bang_bang as bang_bang
+import bounds as bounds
+import thermostat_io as io
 from learning import probability_present
 import time, sched
 import main_globals
