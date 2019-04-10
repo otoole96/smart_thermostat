@@ -41,6 +41,7 @@ def control():
             main_globals.fan = 0
 
 def set_pins():
+    print("Setting pins...")
     if main_globals.heat == 1:
         GPIO.output(24,GPIO.HIGH)
     else:

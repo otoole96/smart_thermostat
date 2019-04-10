@@ -33,5 +33,6 @@ def set_new():
     outside_comp()
     update_sum()
     boundshift = ((4-0.5*main_globals.occ_sum)*a)+((4 - 4*main_globals.prob_present)*b) #cant go above 5
+    print("Bounds converging...")
     main_globals.setpoint = main_globals.user_setpoint + boundshift*(-1)^mode
 

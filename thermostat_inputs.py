@@ -39,7 +39,7 @@ def read_temp():
         return  temp_c, temp_f
 
 # Main entry point for getting the inside temperature
-def get_inside_temp(inside_t):
+def get_inside_temp():
     os.system('modprobe w1-gpio')
     os.system('modprobe w1-therm')
     base_dir = '/sys/bus/w1/devices/'
@@ -47,8 +47,7 @@ def get_inside_temp(inside_t):
     device_file = device_folder + '/w1_slave'
 
     temp_c, temp_f = read_temp()
-    print(str(temp_c))	
-    print(str(temp_f))	
+    print("Inside temp is " + str(temp_f))	
     main_globals.inside_t = temp_f
 
 #---------------------------------------------------------------------------------------------------
@@ -70,8 +69,9 @@ def query_outside_temp ():
     return outsidetemp
 
 # Main entry point for getting the outside temp
-def get_outside_t (outside_t):
+def get_outside_t ():
     outside_t = query_outside_temp()
+    print("Outside temp is " + outside_t)
     main_globals.outside_t = outside_t
 
 
@@ -88,6 +88,7 @@ def ping_the_user():
         return 0
 
 # Main entry point for obtaining the occupancy
-def get_occ(occ):
+def get_occ():
     occ = ping_the_user()
+    print("Occupancy is " + str(occ))
     main_globals.occ = occ

@@ -20,17 +20,17 @@ def main():
     # Initialization
     main_globals.init() # TODO: get the user set point through the UI
     s = sched.scheduler(time.time, time.sleep)
-
+    print("Initialization complete. Entering main loop...")
     # Main Loop
     while True:
         # Get inputs (dt = 60sec)
-        s.enter(60, 10, io.get_inside_t)
+        s.enter(60, 10, io.get_inside_temp)
         s.enter(60, 9, io.get_outside_t)
-        s.enter(60*15, 8, io.get_occ)
+        s.enter(60*2, 8, io.get_occ)
 
         # Get the probability present, then setpoint in the next delta t (dt = 15m)
-        s.enter(60*15, 3, probability_present)
-        s.enter(60*15, 2, bounds.determine_setpoint)
+        s.enter(60*2, 3, probability_present)
+        s.enter(60*2, 2, bounds.set_new)
 
         # Set the HVAC (dt = 1m)
         s.enter(60, 1, bang_bang.bang_bang)
@@ -40,3 +40,4 @@ def main():
 
 if __name__ == "__main__ ":
     main()
+main()
