@@ -26,7 +26,7 @@ def main():
         # Get inputs (dt = 60sec)
         s.enter(60, 10, io.get_inside_t)
         s.enter(60, 9, io.get_outside_t)
-        s.enter(60, 8, io.get_occ)
+        s.enter(60*15, 8, io.get_occ)
 
         # Get the probability present, then setpoint in the next delta t (dt = 15m)
         s.enter(60*15, 3, probability_present)
