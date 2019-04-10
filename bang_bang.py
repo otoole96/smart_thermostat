@@ -7,10 +7,7 @@
 #   Main entry point for the application.
 
 #-----------------------------------------------------------------------
-import bounds.py as bound
-import thermostat.io. as io
 import RPi.GPIO as GPIO 
-import time
 import main_globals
 
 GPIO.setmode(GPIO.BCM)
@@ -21,7 +18,7 @@ GPIO.setup(26,GPIO.OUT)     #fan
 
 h = 0.5                     #hysteresis vale in f
 
-def control()
+def control():
     # Heat mode
     if main_globals.outside_t <= main_globals.inside_t:
         if main_globals.inside_t<(main_globals.setpoint-h):
@@ -43,7 +40,7 @@ def control()
             main_globals.ac = 0
             main_globals.fan = 0
 
-def set_pins()
+def set_pins():
     if main_globals.heat == 1:
         GPIO.output(24,GPIO.HIGH)
     else:
@@ -61,7 +58,7 @@ def set_pins()
 
 
 
-def bang_bang()
+def bang_bang():
     control()
     set_pins()
 
