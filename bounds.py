@@ -15,7 +15,7 @@
 import main_globals
 
 def outside_comp():
-    if main_globals.outside_t > main_globals.inside_t:
+    if main_globals.outside_t > main_globals.setpoint:
         main_globals.mode = 0 #hot outside/AC in use
     else:
         main_globals.mode = 1 #cold outside/Heat in use
@@ -35,4 +35,4 @@ def set_new():
     boundshift = ((4-0.5*main_globals.occ_sum)*a)+((4 - 4*main_globals.prob_present)*b) #cant go above 5
     print("Bounds converging...")
     main_globals.setpoint = main_globals.user_setpoint + boundshift*(-1)**main_globals.mode
-
+    print("Setpoint = " + str(main_globals.setpoint))

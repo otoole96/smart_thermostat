@@ -19,15 +19,15 @@ import json
 #---------------------------------------------------------------------------------------------------
 
 # Helper function for reading the temperature
-def read_temp_raw():
+def read_temp_raw(device_file):
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
     return lines
 
 # Reads the temp from the sensor
-def read_temp():
-    lines = read_temp_raw()
+def read_temp(device_file):
+    lines = read_temp_raw(device_file)
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
@@ -46,7 +46,7 @@ def get_inside_temp():
     device_folder = glob.glob(base_dir + '28*')[0]
     device_file = device_folder + '/w1_slave'
 
-    temp_c, temp_f = read_temp()
+    temp_c, temp_f = read_temp(device_file)
     print("Inside temp is " + str(temp_f))	
     main_globals.inside_t = temp_f
 
@@ -71,9 +71,8 @@ def query_outside_temp ():
 # Main entry point for getting the outside temp
 def get_outside_t ():
     outside_t = query_outside_temp()
-    print("Outside temp is " + outside_t)
-    main_globals.outside_t = outside_t
-
+    main_globals.outside_t = 9.0/5.0 * outside_t - 449.67
+    print("Outside temp is = " + str(main_globals.outside_t))
 
 #---------------------------------------------------------------------------------------------------
 # Occupancy
@@ -82,7 +81,8 @@ def get_outside_t ():
 # Helper function for the occupancy
 def ping_the_user():
     os.system("sudo arp-scan -l > scan.txt")
-    if 'bc:54:51:a4:75:7e' in open('scan.txt').read():
+    mac_addr = "ac:37:43:4e:d3:78"
+    if mac_addr in open('scan.txt').read():
         return 1
     else :
         return 0

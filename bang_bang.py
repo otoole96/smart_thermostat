@@ -19,44 +19,52 @@ GPIO.setup(26,GPIO.OUT)     #fan
 h = 0.5                     #hysteresis vale in f
 
 def control():
+
     # Heat mode
-    if main_globals.outside_t <= main_globals.inside_t:
-        if main_globals.inside_t<(main_globals.setpoint-h):
+    if main_globals.outside_t <= main_globals.setpoint:
+        if main_globals.inside_t< (main_globals.setpoint - h):
             main_globals.heat = 1
             main_globals.ac = 0
             main_globals.fan = 1
-        elif main_globals.inside_t>(main_globals.setpoint+h):
+        elif main_globals.inside_t>(main_globals.setpoint + h):
             main_globals.heat = 0
             main_globals.ac = 0
             main_globals.fan = 0
+
     # AC mode
-    elif main_globals.outside_t > main_globals.inside_t:
+    elif main_globals.outside_t > main_globals.setpoint:
         if main_globals.inside_t > (main_globals.setpoint + h):
             main_globals.heat = 0
             main_globals.ac = 1
             main_globals.fan = 1
-        elif main_globals.inside_t <(main_globals.setpoint - h):
+        elif main_globals.inside_t < (main_globals.setpoint - h):
             main_globals.heat = 0
             main_globals.ac = 0
             main_globals.fan = 0
 
 def set_pins():
     print("Setting pins...")
+
     if main_globals.heat == 1:
         GPIO.output(24,GPIO.HIGH)
+        print("Setting heat..")
     else:
         GPIO.output(24,GPIO.LOW)
+        print("Resetting heat")
 
     if main_globals.ac == 1:
         GPIO.output(25,GPIO.HIGH)
+        print("Setting AC")
     else:
         GPIO.output(25,GPIO.LOW)
+        print("Resetting AC")
 
     if main_globals.fan == 1:
         GPIO.output(26,GPIO.HIGH)
+        print("Setting fan")
     else:
         GPIO.output(26,GPIO.LOW)
-
+        print("Resetting fan")
 
 
 def bang_bang():
