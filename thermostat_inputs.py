@@ -80,6 +80,20 @@ def get_outside_t (outside_t):
 
 # Helper function for the occupancy
 def ping_the_user():
+
+
+import os
+os.system("sudo arp-scan -l > scan.txt")
+import subprocess
+
+# if 'Phone MAC address' in open ** scan text is the output file('scan.txt').read()
+if 'bc:54:51:a4:75:7e' in open('scan.txt').read():
+        return 1
+
+else :
+        return 0
+
+    
     # Occ logic here
     return 0 # TODO: Return occ, not 0
 
