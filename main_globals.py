@@ -6,7 +6,7 @@ def init():
     inside_t = 0
 
     global outside_t
-    outside_t = 95
+    outside_t = 30
 
     global occ
     occ = 0

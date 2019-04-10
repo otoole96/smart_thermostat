@@ -22,10 +22,12 @@ def outside_comp():
 
 def update_sum():
     if main_globals.occ == 1 and main_globals.occ_sum < 8:
-        main_globals.occ_sum = main_globals.occ_sum - 1
+        main_globals.occ_sum = main_globals.occ_sum + 1
 
     elif main_globals.occ == 0 and main_globals.occ_sum > 0:
         main_globals.occ_sum = main_globals.occ_sum - 1
+    
+    print(main_globals.occ_sum)
 
 def set_new():
     a = 0.5
@@ -33,6 +35,5 @@ def set_new():
     outside_comp()
     update_sum()
     boundshift = ((4-0.5*main_globals.occ_sum)*a)+((4 - 4*main_globals.prob_present)*b) #cant go above 5
-    print("Bounds converging...")
     main_globals.setpoint = main_globals.user_setpoint + boundshift*(-1)**main_globals.mode
     print("Setpoint = " + str(main_globals.setpoint))
