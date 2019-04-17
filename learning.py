@@ -107,14 +107,23 @@ def get_probability_model():
     return yprob
 
 def add_entry():
-    m = localtime()[4]
-    h = localtime()[3]
+    m = 1#localtime()[4]
+    h = 3#localtime()[3]
+
+    m_str = str(m)
+    h_str = str(h)
 
     with open("occupancy_history.csv", "a") as occ_file:
+        if len(str(m)) == 1:
+            m_str = "0" + str(m)
+        if len(str(h)) == 1:
+            h_str = "0" + str(h)
+
+
         if main_globals.occ == 1:
-            occ_file.write("\n" + str(h) + ":" + str(m) + ",,,,TRUE")
+            occ_file.write("\n" + h_str + ":" + m_str + ",,,,TRUE")
         else:
-            occ_file.write("\n" + str(h) + ":" + str(m) + ",,,,FALSE")            
+            occ_file.write("\n" + h_str + ":" + m_str + ",,,,FALSE")            
     
 #---------------------------------------------------------------------------------------
 # Main entry point for the learning program.
