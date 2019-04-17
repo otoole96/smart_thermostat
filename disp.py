@@ -7,12 +7,8 @@ main_globals.init()
 # --------------------------------------------
 #   Some definitions
 # --------------------------------------------
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 320
-GRID_X = SCREEN_WIDTH / 4
-GRID_Y = SCREEN_HEIGHT / 4
-TILES = 16
-SPACE = 10
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 # Color
 BLACK = (0, 0, 0)
 DARK_GRAY = (145, 145, 145)
