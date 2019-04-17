@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------
 #Program Name: main.py
-#Author: Thomas Krenelka, Zach O'Toole
+#Author: Thomas Krenelka, Zach O'Toole, Qian Hao lam
 #------------------------------------------------------------------------
 #Description:
 #   This the main routine that calls all other subroutines.
