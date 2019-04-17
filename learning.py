@@ -55,6 +55,7 @@ def get_next_time_index():
 #---------------------------------------------------------------------------------------
 def load_history():
     print("Loading history...")
+    #filename = "occupancy_history.csv"
     filename = "occupancy_history.csv"
     df = pd.read_csv(filename, index_col=0)
     present = np.array(df['Present'])
@@ -88,32 +89,44 @@ def get_probability_model():
     
     support_vector_machine = svm.SVC(probability=True, kernel="rbf", verbose=1)
     
-    t_train = t[:-96]
-    y_train = y[:-96]
+    #    t_train = t[:-96]
+    #    y_train = y[:-96]
 
-    t_train = t_train.reshape(-1, 1)
+    #    t_train = t_train.reshape(-1, 1)
 
-    h = support_vector_machine.fit(t_train, y_train)
+    t = t.reshape(-1, 1)
 
-    t_test = t[-96:]
-    y_test = y[-96:]
-    
-    t_test = t_test.reshape(-1,1)
+    h = support_vector_machine.fit(t, y)
+
+    t_test = np.array([get_next_time_index()])
+    t_test = t_test.reshape(1, -1)
 
     yhat = support_vector_machine.predict(t_test)
     yprob = support_vector_machine.predict_proba(t_test)
     
-    acc = np.mean(yhat == y_test)
-    print("Accuracy = %f" % acc)
-    
     return yprob
 
+def add_entry():
+    m = localtime()[4]
+    h = localtime()[3]
+
+    with open("occupancy_history.csv", "a") as occ_file:
+        if main_globals.occ == 1:
+            occ_file.write("\n" + str(h) + ":" + str(m) + ",,,,TRUE")
+        else:
+            occ_file.write("\n" + str(h) + ":" + str(m) + ",,,,FALSE")            
+    
 #---------------------------------------------------------------------------------------
 # Main entry point for the learning program.
+# TODO: 
+#       - Test addiing entries
+#       - Run prediction on a single time (get_next_time_ind) 
+#       - Train the model on all samples  
 #---------------------------------------------------------------------------------------
 def probability_present():
     init()
     yprob = get_probability_model()[:,1]
-    next_time_ind = get_next_time_index()
-    main_globals.yprob = yprob[next_time_ind]
+    print(yprob)
+    add_entry()
+    main_globals.yprob = yprob
     
