@@ -12,9 +12,6 @@ SCREEN_HEIGHT = 600
 # Color
 BLACK = (0, 0, 0)
 DARK_GRAY = (145, 145, 145)
-GRAY = (175, 175, 175)
-BLUE_GRAY = (200, 220, 240)
-LIGHT_GRAY = (232, 232, 232)
 GREEN = (50, 255, 25)
 WHITE = (255, 255, 255)
 
@@ -31,7 +28,7 @@ medium_font = pygame.font.SysFont(None,42)
 # --------------------------------------------
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Thermostat Display")
+pygame.display.set_caption('Thermostat')
 screen.fill(BLACK)
 # Triangles
 up_arr = pygame.draw.polygon(screen, GREEN, ((600, 150), (700, 290), (500, 290)))
