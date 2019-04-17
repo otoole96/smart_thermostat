@@ -1,5 +1,15 @@
-import pygame, sys, random
+import pygame, sys, random, os
 import main_globals
+
+#os.environ['SDL_VIDEODRIVER'] = 'fbcon'
+#os.environ['SDL_FBDEV'] = '/dev/fb1'
+#os.environ['SDL_MOUSEDRV'] = 'TSLIB'
+#os.environ['SDL_MOUSEDEV'] = '/dev/input/event0'
+
+os.putenv('SDL_VIDEODRIVER', 'fbcon')
+os.putenv('SDL_FBDEV'      , '/dev/fb1')
+os.putenv('SDL_MOUSEDRV'   , 'TSLIB')
+os.putenv('SDL_MOUSEDEV'   , '/dev/input/touchscreen')
 
 pygame.init()
 main_globals.init()
@@ -27,7 +37,7 @@ medium_font = pygame.font.SysFont(None,42)
 #   Screen initialization
 # --------------------------------------------
 #SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
-screen = pygame.display.set_mode((0,0))
+screen = pygame.display.set_mode((480,320))
 pygame.display.set_caption('Thermostat')
 screen.fill(BLACK)
 # Triangles
