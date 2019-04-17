@@ -1,5 +1,15 @@
-import pygame, sys, random
+import pygame, sys, random, os
 import main_globals
+
+#os.environ['SDL_VIDEODRIVER'] = 'fbcon'
+#os.environ['SDL_FBDEV'] = '/dev/fb1'
+#os.environ['SDL_MOUSEDRV'] = 'TSLIB'
+#os.environ['SDL_MOUSEDEV'] = '/dev/input/event0'
+
+os.putenv('SDL_VIDEODRIVER', 'fbcon')
+os.putenv('SDL_FBDEV'      , '/dev/fb1')
+os.putenv('SDL_MOUSEDRV'   , 'TSLIB')
+os.putenv('SDL_MOUSEDEV'   , '/dev/input/touchscreen')
 
 pygame.init()
 main_globals.init()
@@ -7,37 +17,32 @@ main_globals.init()
 # --------------------------------------------
 #   Some definitions
 # --------------------------------------------
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 320
-GRID_X = SCREEN_WIDTH / 4
-GRID_Y = SCREEN_HEIGHT / 4
-TILES = 16
-SPACE = 10
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 # Color
 BLACK = (0, 0, 0)
 DARK_GRAY = (145, 145, 145)
-GRAY = (175, 175, 175)
-BLUE_GRAY = (200, 220, 240)
-LIGHT_GRAY = (232, 232, 232)
+GREEN = (50, 255, 25)
+WHITE = (255, 255, 255)
 
 # ---------------------------------------------------
 #    Variables
 # ---------------------------------------------------
 small_font = pygame.font.SysFont(None, 24)
-large_font = pygame.font.SysFont(None, 200)
+large_font = pygame.font.SysFont(None, 400)
 medium_font = pygame.font.SysFont(None,42)
 
 
 # --------------------------------------------
 #   Screen initialization
 # --------------------------------------------
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
-screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Thermostat Display")
-screen.fill(LIGHT_GRAY)
+#SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
+screen = pygame.display.set_mode((480,320))
+pygame.display.set_caption('Thermostat')
+screen.fill(BLACK)
 # Triangles
-up_arr = pygame.draw.polygon(screen, BLUE_GRAY, ((360, 80), (420, 150), (300, 150)))
-down_arr = pygame.draw.polygon(screen, BLUE_GRAY, ((360, 240), (420, 170), (300, 170)))
+up_arr = pygame.draw.polygon(screen, GREEN, ((600, 150), (700, 290), (500, 290)))
+down_arr = pygame.draw.polygon(screen, GREEN, ((600, 450), (700, 310), (500, 310)))
 
 # --------------------------------------------
 #   Text Display Function
@@ -54,41 +59,42 @@ def disp_text(surface, font, text, color, center):
 # --------------------------------------------
 def update_disp():
     # Clear screen
-    screen.fill(LIGHT_GRAY)
+    screen.fill(BLACK)
     # Buttons
-    pygame.draw.polygon(screen, BLUE_GRAY, ((360, 80), (420, 150), (300, 150)))
-    pygame.draw.polygon(screen, BLUE_GRAY, ((360, 240), (420, 170), (300, 170)))
+    pygame.draw.polygon(screen, GREEN, ((600, 150), (700, 290), (500, 290)))
+    pygame.draw.polygon(screen, GREEN, ((600, 450), (700, 310), (500, 310)))
     # Outside Temp Label
-    disp_text(screen, small_font, 'Outside:', DARK_GRAY, (80, 260))
+    disp_text(screen, small_font, 'Outside:', DARK_GRAY, (100, 525))
     # Outside Temp
-    disp_text(screen, medium_font, str(main_globals.outside_t), BLACK, (145, 260))
+    disp_text(screen, medium_font, str(main_globals.outside_t), DARK_GRAY, (300, 525))
     # Inside Temp Label
-    disp_text(screen, small_font, 'Temperature:', DARK_GRAY, (75, 50))
+    disp_text(screen, small_font, 'Temperature:', DARK_GRAY, (100, 75))
     # Deg Symbol
-    disp_text(screen, small_font, 'o', BLACK, (215, 90))
+    disp_text(screen, small_font, 'o', WHITE, (365, 165))
     # Temp Unit
-    disp_text(screen, small_font, 'F', BLACK, (215, 185))
+    disp_text(screen, small_font, 'F', WHITE, (365, 375))
     # Inside Temp
-    disp_text(screen, large_font, str(main_globals.inside_t), BLACK, (120, 150))
+    disp_text(screen, large_font, str(main_globals.inside_t), WHITE, (200, 300))
     # Setpoint Label
-    disp_text(screen, small_font, 'Set:', DARK_GRAY, (320, 40))
+    disp_text(screen, small_font, 'Set:', DARK_GRAY, (500, 75))
     # Setpoint Display
-    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (400, 40))
+    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (700, 75))
     # AC label
-    disp_text(screen, small_font, 'AC:', DARK_GRAY, (270, 280))
+    disp_text(screen, small_font, 'AC:', DARK_GRAY, (450, 525))
     # Furnace label
-    disp_text(screen, small_font, 'Furnace:', DARK_GRAY, (390, 280))
-
-    if main_globals.ac == 1:
-        disp_text(screen, small_font, 'ON', DARK_GRAY, (300, 280))
-    if main_globals.heat == 1:
-        disp_text(screen, small_font, 'ON', DARK_GRAY, (440, 280))
+    disp_text(screen, small_font, 'Heat:', DARK_GRAY, (600, 525))
+    # AC and Furnace Indicators
+    if main_globals.ac == 1 :
+        disp_text(screen, small_font, 'ON', DARK_GRAY, (525, 525))
+    if main_globals.heat == 1 :
+        disp_text(screen, small_font, 'ON', DARK_GRAY, (700, 525))
 
 
 def ui_main():
     # --------------------------------------------
     #   Main Loop
     # --------------------------------------------
+    print("Entering display main loop.")
     while 1:
         # Run until someone closes the window
         for event in pygame.event.get():
