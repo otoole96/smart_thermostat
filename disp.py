@@ -26,8 +26,8 @@ medium_font = pygame.font.SysFont(None,42)
 # --------------------------------------------
 #   Screen initialization
 # --------------------------------------------
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
-screen = pygame.display.set_mode(SCREEN_SIZE)
+#SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT
+screen = pygame.display.set_mode((0,0))
 pygame.display.set_caption('Thermostat')
 screen.fill(BLACK)
 # Triangles
@@ -74,9 +74,9 @@ def update_disp():
     # Furnace label
     disp_text(screen, small_font, 'Heat:', DARK_GRAY, (600, 525))
     # AC and Furnace Indicators
-    if nain_globals.ac == 1 :
+    if main_globals.ac == 1 :
         disp_text(screen, small_font, 'ON', DARK_GRAY, (525, 525))
-    if main_gloabls.heat == 1 :
+    if main_globals.heat == 1 :
         disp_text(screen, small_font, 'ON', DARK_GRAY, (700, 525))
 
 
@@ -84,6 +84,7 @@ def ui_main():
     # --------------------------------------------
     #   Main Loop
     # --------------------------------------------
+    print("Entering display main loop.")
     while 1:
         # Run until someone closes the window
         for event in pygame.event.get():
