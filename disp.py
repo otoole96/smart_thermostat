@@ -2,6 +2,7 @@ import pygame, sys, random
 import main_globals
 
 pygame.init()
+main_globals.init()
 
 # --------------------------------------------
 #   Some definitions
@@ -26,11 +27,6 @@ SET_LABEL = 'Set:'
 # ---------------------------------------------------
 #    Variables
 # ---------------------------------------------------
-in_temp = 70
-out_temp = 75
-setpoint = 69
-ac_on = False
-furn_on = True
 small_font = pygame.font.SysFont(None, 24)
 large_font = pygame.font.SysFont(None, 200)
 medium_font = pygame.font.SysFont(None,42)
@@ -59,15 +55,17 @@ def disp_text(surface, font, text, color, center):
 #   Text Display Function
 # --------------------------------------------
 def update_disp():
+    screen.fill(LIGHT_GRAY)
     # Outside Temp
-    disp_text(screen, medium_font, str(out_temp), BLACK, (145, 260))
+    disp_text(screen, medium_font, str(main_globals.outside_t), BLACK, (145, 260))
     # Inside Temp
-    disp_text(screen, large_font, str(in_temp), BLACK, (120, 150))
+    disp_text(screen, large_font, str(main_globals.inside_t), BLACK, (120, 150))
     # Setpoint Display
-    disp_text(screen, medium_font, str(setpoint), DARK_GRAY, (400, 40))
-    if ac_on:
+    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (400, 40))
+
+    if main_globals.ac == 1:
         disp_text(screen, small_font, 'ON', DARK_GRAY, (300, 280))
-    if furn_on:
+    if main_globals.heat == 1:
         disp_text(screen, small_font, 'ON', DARK_GRAY, (440, 280))
 
 # --------------------------------------------
@@ -98,15 +96,18 @@ disp_text(screen, small_font, 'Set:', DARK_GRAY, (320, 40))
 # disp_text(screen, medium_font, str(setpoint), DARK_GRAY, (400, 40))
 
 
-# --------------------------------------------
-#   Main Loop
-# --------------------------------------------
-while 1:
-    # Run until someone closes the window
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
 
-    # Update Display
-    update_disp()
-    pygame.display.flip()
+def ui_main():
+    # --------------------------------------------
+    #   Main Loop
+    # --------------------------------------------
+    while 1:
+        # Run until someone closes the window
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+        # Update Display
+        update_disp()
+        pygame.display.flip()
+
