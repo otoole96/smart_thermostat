@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #-------------------------------------------------------------------------
 #Program Name: main.py
-#Author: Thomas Krenelka, Zach O'Toole, Qian Hao lam
+#Author: Zach O'Toole
 #------------------------------------------------------------------------
 #Description:
 #   This the main routine that calls all other subroutines.
