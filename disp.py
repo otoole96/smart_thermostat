@@ -29,7 +29,7 @@ WHITE = (255, 255, 255)
 #    Variables
 # ---------------------------------------------------
 small_font = pygame.font.SysFont(None, 24)
-large_font = pygame.font.SysFont(None, 400)
+large_font = pygame.font.SysFont(None, 200)
 medium_font = pygame.font.SysFont(None,42)
 
 
