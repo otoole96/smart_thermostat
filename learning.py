@@ -107,8 +107,8 @@ def get_probability_model():
     return yprob
 
 def add_entry():
-    m = 1#localtime()[4]
-    h = 3#localtime()[3]
+    m = localtime()[4]
+    h = localtime()[3]
 
     m_str = str(m)
     h_str = str(h)
