@@ -10,6 +10,8 @@
 import RPi.GPIO as GPIO 
 import main_globals
 
+
+#Setup I/O pins
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(2, GPIO.OUT)     #heat
@@ -19,6 +21,8 @@ GPIO.setup(14, GPIO.OUT)     #fan
 
 h = 0.5                     #hysteresis vale in f
 
+
+#Hysteresis control. Set global variables
 def control():
 
     # Heat mode
@@ -43,6 +47,7 @@ def control():
             main_globals.ac = 0
             main_globals.fan = 0
 
+#Read global variables and set output pins.
 def set_pins():
     print("Setting pins...")
 
