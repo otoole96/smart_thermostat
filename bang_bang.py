@@ -12,9 +12,9 @@ import main_globals
 
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(6, GPIO.OUT)     #heat
-GPIO.setup(5, GPIO.OUT)     #ac
-GPIO.setup(26, GPIO.OUT)     #fan
+GPIO.setup(2, GPIO.OUT)     #heat
+GPIO.setup(3, GPIO.OUT)     #ac
+GPIO.setup(14, GPIO.OUT)     #fan
 
 
 h = 0.5                     #hysteresis vale in f
@@ -47,24 +47,24 @@ def set_pins():
     print("Setting pins...")
 
     if main_globals.heat == 1:
-        GPIO.output(6,GPIO.HIGH)
+        GPIO.output(2,GPIO.HIGH)
         print("Setting heat..")
     else:
-        GPIO.output(6,GPIO.LOW)
+        GPIO.output(2,GPIO.LOW)
         print("Resetting heat")
 
     if main_globals.ac == 1:
-        GPIO.output(5,GPIO.HIGH)
+        GPIO.output(3,GPIO.HIGH)
         print("Setting AC")
     else:
-        GPIO.output(5,GPIO.LOW)
+        GPIO.output(3,GPIO.LOW)
         print("Resetting AC")
 
     if main_globals.fan == 1:
-        GPIO.output(26,GPIO.HIGH)
+        GPIO.output(14,GPIO.HIGH)
         print("Setting fan")
     else:
-        GPIO.output(26,GPIO.LOW)
+        GPIO.output(14,GPIO.LOW)
         print("Resetting fan")
 
 

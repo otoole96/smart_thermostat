@@ -13,7 +13,7 @@ import thermostat_inputs as io
 from learning import probability_present
 import time, sched
 import main_globals
-
+import threading
 # Main function of the project
 def main():
     # Initialization
@@ -49,4 +49,13 @@ def main():
                 
         # UI Code (dt = 0)
 
-main()
+#main()
+
+print('Making threads.')
+
+mainThread = threading.Thread(target=main)
+mainThread.start()
+mainThread.join()
+
+print('Done')
+

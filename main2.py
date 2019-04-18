@@ -7,11 +7,11 @@
 #   Main entry point for the application.
 #-----------------------------------------------------------------------
 
-#import bang_bang as bang_bang
+import bang_bang as bang_bang
 import bounds as bounds
 import thermostat_inputs as io
 from learning import probability_present
-import time, sched
+import time
 import main_globals
 import threading
 import disp
@@ -20,6 +20,7 @@ def backend():
     print("Backend running")
     probability_present()
     io.get_outside_t()
+    bounds.set_new()
     flag_15 = 0
     flag_05 = 0
     print("Initialization complete. Entering main backend loop on backend thread.")
@@ -32,17 +33,19 @@ def backend():
        
         if (current_seconds == 0 or current_seconds == 30) and flag_05 == 0:
                 io.get_inside_temp()
+                bounds.set_new()
                 bang_bang.bang_bang()
                 flag_05 = 1
-                print(time.localtime())
+                print('INSIDE T, OUTSIDE T, USER SETPOINT, CALC SETPOINT' + str(main_globals.inside_t) + ',' +  str(main_globals.outside_t) + ',' + str(main_globals.user_setpoint) + ',' +  str(main_globals.setpoint) )
+                #print(time.localtime())
         if current_seconds == 1 or current_seconds == 31:
                 flag_05 = 0
-
+                
         # Get the probability present, then setpoint in the next delta t (dt = 15m)
         if current_minutes % 15 == 0 and flag_15 == 0:
                 io.get_outside_t()
                 io.get_occ()
-                probability_present()
+                #probability_present()
                 bounds.set_new()
                 flag_15 = 1
         if current_minutes % 16 == 0:

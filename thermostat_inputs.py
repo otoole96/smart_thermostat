@@ -71,7 +71,7 @@ def query_outside_temp ():
 # Main entry point for getting the outside temp
 def get_outside_t ():
     outside_t = query_outside_temp()
-    main_globals.outside_t = 9.0/5.0 * outside_t - 449.67
+    main_globals.outside_t = 9.0/5.0*(outside_t-273.15)+32    #9.0/5.0 * outside_t - 449.67
     print("Outside temp is = " + str(main_globals.outside_t))
 
 #---------------------------------------------------------------------------------------------------
