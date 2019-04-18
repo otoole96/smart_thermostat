@@ -78,7 +78,7 @@ def update_disp():
     # Setpoint Label
     disp_text(screen, small_font, 'Set:', DARK_GRAY, (300, 40))
     # Setpoint Display
-    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (420, 40)
+    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (420, 40))
     # AC label
     disp_text(screen, small_font, 'AC:', DARK_GRAY, (270, 280))
     # Furnace label
