@@ -1,10 +1,9 @@
 #-------------------------------------------------------------------------
 #Program Name: main.py
-#Author: Thomas Krenelka, Zach O'Toole, Qian Hao lam
+#Author: Zach O'Toole, Thomas Krenelka, Qian Hao lam
 #------------------------------------------------------------------------
 #Description:
-#   This the main routine that calls all other subroutines.
-#   Main entry point for the application.
+#   No longer used, UI has not been added. If no screen, this can be used.
 #-----------------------------------------------------------------------
 
 import bang_bang as bang_bang
