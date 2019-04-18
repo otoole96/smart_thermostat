@@ -1,5 +1,5 @@
-# smart_thermostat README
-Create a smart thermostat using a Raspberry Pi
+# Smart Thermostat README
+Create a smart thermostat using a Raspberry Pi 3.
 
 ### Before you run
 To run, python 3 must be installed on your pi. Then, you have to change the permissions on the setup file using:
