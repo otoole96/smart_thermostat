@@ -70,9 +70,9 @@ def update_disp():
     # Inside Temp Label
     disp_text(screen, small_font, 'Temperature:', DARK_GRAY, (60, 40))
     # Deg Symbol
-    disp_text(screen, small_font, 'o', WHITE, (210, 80))
+    disp_text(screen, small_font, 'o', WHITE, (210, 100))
     # Temp Unit
-    disp_text(screen, small_font, 'F', WHITE, (210, 240))
+    disp_text(screen, small_font, 'F', WHITE, (210, 200))
     # Inside Temp
     disp_text(screen, large_font, str(main_globals.inside_t), WHITE, (120, 160))
     # Setpoint Label
