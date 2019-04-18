@@ -2,6 +2,11 @@
 # Thermostat IO
 # Authors: Zach O'Toole, Qian Hao Lam
 # Purpose: to get the inputs from the thermostat sensors and output stuff.
+# Description: This file gets three input data type
+#  1) Inside Temperature via Temperature sensor at GPIO BCM 4
+#  2) Outside Temperature via openweather api configured at Columbus OH with zipcode 43201
+#  3) Occupancy Data via arp scan for wifi mac address.
+#
 #---------------------------------------------------------------------------------------------------
 
 import os
@@ -19,15 +24,16 @@ import json
 #---------------------------------------------------------------------------------------------------
 
 # Helper function for reading the temperature
-def read_temp_raw(device_file):
+def read_temp_raw(device_file): #reading raw temperature from file
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
     return lines
 
-# Reads the temp from the sensor
+# Reads the temp from the sensor 
+# Extracting information from the file using a binary search
 def read_temp(device_file):
-    lines = read_temp_raw(device_file)
+    lines = read_temp_raw(device_file)  
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
         lines = read_temp_raw()
@@ -39,10 +45,10 @@ def read_temp(device_file):
         return  temp_c, temp_f
 
 # Main entry point for getting the inside temperature
-def get_inside_temp():
-    os.system('modprobe w1-gpio')
-    os.system('modprobe w1-therm')
-    base_dir = '/sys/bus/w1/devices/'
+def get_inside_temp(): 
+    os.system('modprobe w1-gpio')  #probe the Temp sensor gpio for data
+    os.system('modprobe w1-therm') 
+    base_dir = '/sys/bus/w1/devices/'    
     device_folder = glob.glob(base_dir + '28*')[0]
     device_file = device_folder + '/w1_slave'
 
@@ -56,11 +62,11 @@ def get_inside_temp():
 
 # Queries the open weather api for the weather
 def query_outside_temp ():
-    apikey="ac918d16f3698465e610f6e08518cced"
-    url="http://api.openweathermap.org/data/2.5/weather?zip=43201,us&appid=ac918d16f3698465e610f6e08518cced"
-    meteo=urlopen(url).read()
-    meteo = meteo.decode('utf-8')
-    weather = json.loads(meteo)
+    apikey="ac918d16f3698465e610f6e08518cced" #apikey from openweathermap.org
+    url="http://api.openweathermap.org/data/2.5/weather?zip=43201,us&appid=ac918d16f3698465e610f6e08518cced" #url outside temperature
+    meteo=urlopen(url).read()  #read from the url
+    meteo = meteo.decode('utf-8')   #decode the url
+    weather = json.loads(meteo)  #extract outside temp data from the url
     outsidetemp = 0
     for key, value in weather['main'].items():
         if key == "temp":
@@ -68,7 +74,7 @@ def query_outside_temp ():
     print(outsidetemp)
     return outsidetemp
 
-# Main entry point for getting the outside temp
+# Main entry point for getting the outside temp and converting it to fahrenheit
 def get_outside_t ():
     outside_t = query_outside_temp()
     main_globals.outside_t = 9.0/5.0*(outside_t-273.15)+32    #9.0/5.0 * outside_t - 449.67
@@ -80,8 +86,8 @@ def get_outside_t ():
 
 # Helper function for the occupancy
 def ping_the_user():
-    os.system("sudo arp-scan -l > scan.txt")
-    mac_addr = "ac:37:43:4e:d3:78"
+    os.system("sudo arp-scan -l > scan.txt") #use arp scan to scan for the homeowner's phone to determine occupancy
+    mac_addr = "ac:37:43:4e:d3:78"  #Phone Wi-fi Mac address
     if mac_addr in open('scan.txt').read():
         return 1
     else :
