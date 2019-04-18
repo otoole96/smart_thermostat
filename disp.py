@@ -66,19 +66,19 @@ def update_disp():
     # Outside Temp Label
     disp_text(screen, small_font, 'Outside:', DARK_GRAY, (60, 280))
     # Outside Temp
-    disp_text(screen, medium_font, str(main_globals.outside_t), DARK_GRAY, (180, 280))
+    disp_text(screen, medium_font, str(int(main_globals.outside_t)), DARK_GRAY, (180, 280))
     # Inside Temp Label
-    disp_text(screen, small_font, 'Temperature:', DARK_GRAY, (60, 40))
+    disp_text(screen, small_font, 'Temperature:', DARK_GRAY, (70, 40))
     # Deg Symbol
     disp_text(screen, small_font, 'o', WHITE, (210, 100))
     # Temp Unit
     disp_text(screen, small_font, 'F', WHITE, (210, 200))
     # Inside Temp
-    disp_text(screen, large_font, str(main_globals.inside_t), WHITE, (120, 160))
+    disp_text(screen, large_font, str(int(main_globals.inside_t)), WHITE, (120, 160))
     # Setpoint Label
     disp_text(screen, small_font, 'Set:', DARK_GRAY, (300, 40))
     # Setpoint Display
-    disp_text(screen, medium_font, str(main_globals.user_setpoint), DARK_GRAY, (420, 40))
+    disp_text(screen, medium_font, str(int(main_globals.user_setpoint)), DARK_GRAY, (420, 40))
     # AC label
     disp_text(screen, small_font, 'AC:', DARK_GRAY, (270, 280))
     # Furnace label
@@ -103,9 +103,11 @@ def ui_main():
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 if up_arr.collidepoint(pos):
-                    main_globals.user_setpoint += 1
+                    if main_globals.user_setpoint < 90:
+                        main_globals.user_setpoint += 1
                 elif down_arr.collidepoint(pos):
-                    main_globals.user_setpoint -= 1
+                    if main_globals.user_setpoint > 50:
+                        main_globals.user_setpoint -= 1
 
         # Update Display
         update_disp()
